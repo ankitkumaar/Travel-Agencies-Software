@@ -1,0 +1,38 @@
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class ActivityTest {
+    private Activity swimming;
+
+    @Before
+    public void setUp() {
+        // Create an activity for testing
+        swimming = new Activity("swimming", "Explore underwater life", 50.0, 20);
+    }
+
+    @Test
+    public void testGetDestinationName() {
+        // Ensure the destination name is correctly retrieved
+        Destination beachDestination = new Destination("Beach Paradise");
+        swimming.setDestination(beachDestination);
+        assertEquals("Beach Paradise", swimming.getDestinationName());
+    }
+
+    @Test
+    public void testSignUpForActivity() {
+        // Test signing up passengers for the activity
+        Passenger alice = new Passenger("Alice", 101, 100.0, PassengerType.STANDARD);
+        swimming.signUpForActivity(alice);
+        assertEquals(1, swimming.getSignedUpPassengers().size());
+        assertEquals(19, swimming.getCapacity());
+
+        // Test capacity limit
+        for (int i = 0; i < 20; i++) {
+            Passenger passenger = new Passenger("Passenger" + i, 200 + i, 100.0, PassengerType.STANDARD);
+            swimming.signUpForActivity(passenger);
+        }
+        assertEquals(20, swimming.getSignedUpPassengers().size());
+        assertEquals(0, swimming.getCapacity());
+    }
+}
